@@ -1,16 +1,16 @@
-import React, { Children } from 'react'
+import React from 'react'
 import { useState } from 'react'
 
 const Table = ({ content, heading }) => {
 
-  // console.log(content)
-  const [open, setOpen] = useState("")
+  const [open, setOpen] = useState(null)
+  const [child, setChild] = useState(null)
 
   const Children = ({child}) => {
     return child.map(data => {
       return (
         <>
-          <tbody onClick={() => { setOpen(child.name) }} className="divide-y divide-gray-100 ">
+          <tbody onClick={() => { setChild(child===child.name? -1 : child.name) }} className="divide-y divide-gray-100 ">
             <tr className="bg-white justify-center">
               <td className="pl-5 text-sm text-gray-700 whitespace-nowrap">
                 {/* {(nested.child) ? nested.child.title : nested.child.name} */}
@@ -27,7 +27,7 @@ const Table = ({ content, heading }) => {
               </>
             </tr>
           </tbody>
-          {data && data.subheaders && <Children child = {data.subheaders}></Children>}
+          {data && data.subheaders && child===child.name && <Children child = {data.subheaders}></Children>}
         </>
       )
     })
@@ -36,11 +36,11 @@ const Table = ({ content, heading }) => {
   const Subheader = ({parent}) => {
       return (
         <>
-          <tbody onClick={() => { setOpen(parent.name) }} className="divide-y divide-gray-100 ">
+          <tbody onClick={() => { setOpen(open===parent.name? -1 : parent.name) }} className="divide-y divide-gray-100 ">
             <tr className="bg-white justify-center">
               <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
                 {/* {(parent) ? parent.title : parent.name} */}
-                {parent && (parent.title || parent.name)}
+                {parent &&  (parent.title || parent.name)}
               </td>
               {parent && parent.columns && parent.columns.map((item)=>
                 <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
@@ -49,9 +49,7 @@ const Table = ({ content, heading }) => {
               )}
             </tr>
           </tbody>
-          <div>
-            {parent && parent.subheaders && <Children child = {parent.subheaders}></Children>}
-          </div>
+            {parent && parent.subheaders && open===parent.name && <Children child = {parent.subheaders}></Children>}
         </>
       )
   }
@@ -87,4 +85,3 @@ const Table = ({ content, heading }) => {
 }
 
 export default Table
-
