@@ -76,40 +76,12 @@ const Table = ({ content, heading }) => {
         {
           content && content.map(data => {
             if(data.heading === heading){
-              return <Subheader parent = {data.children[0]}></Subheader>
+              return data.children.map((parent)=><Subheader parent = {parent} />) 
             }
           })
         }
 
-        {/* {subheader()} */}
-
-
-        {/* {items.map((item,i) => (
-              <tbody className="divide-y divide-gray-100 ">
-                <tr className="bg-white justify-center">
-                  <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                    {i + 1}
-                  </td>
-                  <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                    <img src={item.image} alt={item.name} className="h-[6rem] object-cover rounded-full" />
-                  </td>
-                  <td className="p-3 text-md font-semibold text-gray-700 whitespace-nowrap">
-                    {item.name}
-                  </td>
-                  <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                    {item.type}
-                  </td>
-                  <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                    {item.sold}
-                  </td>
-                  <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                    {item.price}
-                  </td>
-                </tr>
-              </tbody>
-            ))} */}
       </table>
-      {/* {buisnessDetails.jobsAdded.length===0?<div className="text-center my-4">You have not yet posted any Job</div>:<></>} */}
     </div>
   )
 }
