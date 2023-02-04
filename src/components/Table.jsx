@@ -5,23 +5,24 @@ const Table = ({ content, heading }) => {
 
   const [open, setOpen] = useState(null)
   const [child, setChild] = useState(null)
+  const [nest, setNest] = useState(4)
 
   const Children = ({child}) => {
     return child.map(data => {
       return (
         <>
-          <tbody onClick={() => { setChild(child===child.name? -1 : child.name) }} className="divide-y bg-gray-500 divide-gray-100 ">
+          <tbody onClick={() => { setChild(child===child.name? -1 : child.name); setNest(nest+4) }} className="divide-y bg-gray-500 divide-gray-100 ">
             <tr className="bg-white justify-center">
-              <td className="pl-5 text-sm text-gray-700 whitespace-nowrap">
+              <td className={`pl-5 text-sm bg-gray-300 text-gray-700 whitespace-nowrap`}>
                 {/* {(nested.child) ? nested.child.title : nested.child.name} */}
                 {data && data.name}
               </td>
               <>
                 {data && data.columns.map(items => {
                   return (
-                      <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                        {typeof(items.value)==="object" ? "" : items.value }
-                      </td>
+                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
+                      {typeof(items.value)==="object" ? "" : items.value }
+                    </td>
                   )
                 })}
               </>
@@ -38,7 +39,7 @@ const Table = ({ content, heading }) => {
         <>
           <tbody onClick={() => { setOpen(open===parent.title? -1 : parent.title) }} className="divide-y bg-gray-900 divide-gray-100 ">
             <tr className="bg-white justify-center">
-              <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
+              <td className="p-3 text-sm bg-gray-100 text-gray-700 whitespace-nowrap">
                 {/* {(parent) ? parent.title : parent.name} */}
                 {parent &&  (parent.title || parent.name)}
               </td>
