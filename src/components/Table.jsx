@@ -9,6 +9,10 @@ const Table = ({content, heading}) => {
     const subheader = (child) => {
         console.log(child)
 
+        if(!child){
+            return;
+        }
+
         // {child.map((obj)=>{
         //     return <>
         //     <tbody onClick={()=>{setOpen(obj.name)}} className="divide-y divide-gray-100 ">
@@ -38,7 +42,7 @@ const Table = ({content, heading}) => {
                             </td>
                             {child[i].columns && child[i].columns.map((item)=>
                                 <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                                    {item.value? item.value : ""}
+                                    {typeof(item.value)==="object"? " " : item.value}
                                 </td>
                             )}
                         </tr>
