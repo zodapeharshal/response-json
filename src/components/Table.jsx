@@ -10,7 +10,7 @@ const Table = ({ content, heading }) => {
     return child.map(data => {
       return (
         <>
-          <tbody onClick={() => { setChild(child===child.name? -1 : child.name) }} className="divide-y divide-gray-100 ">
+          <tbody onClick={() => { setChild(child===child.name? -1 : child.name) }} className="divide-y bg-gray-500 divide-gray-100 ">
             <tr className="bg-white justify-center">
               <td className="pl-5 text-sm text-gray-700 whitespace-nowrap">
                 {/* {(nested.child) ? nested.child.title : nested.child.name} */}
@@ -36,7 +36,7 @@ const Table = ({ content, heading }) => {
   const Subheader = ({parent}) => {
       return (
         <>
-          <tbody onClick={() => { setOpen(open===parent.name? -1 : parent.name) }} className="divide-y divide-gray-100 ">
+          <tbody onClick={() => { setOpen(open===parent.title? -1 : parent.title) }} className="divide-y bg-gray-900 divide-gray-100 ">
             <tr className="bg-white justify-center">
               <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
                 {/* {(parent) ? parent.title : parent.name} */}
@@ -49,7 +49,7 @@ const Table = ({ content, heading }) => {
               )}
             </tr>
           </tbody>
-            {parent && parent.subheaders && open===parent.name && <Children child = {parent.subheaders}></Children>}
+            {parent && parent.subheaders && open===parent.title && <Children child = {parent.subheaders}></Children>}
         </>
       )
   }
