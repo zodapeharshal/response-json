@@ -1,82 +1,90 @@
-import React from 'react'
+import React, { Children } from 'react'
 import { useState } from 'react'
 
-const Table = ({content, heading}) => {
+const Table = ({ content, heading }) => {
 
-    // console.log(content)
-    const [open, setOpen] = useState("")
+  // console.log(content)
+  const [open, setOpen] = useState("")
 
-    const subheader = (child) => {
-        console.log(child)
+  const Children = ({child}) => {
+    return child.map(data => {
+      return (
+        <>
+          <tbody onClick={() => { setOpen(child.name) }} className="divide-y divide-gray-100 ">
+            <tr className="bg-white justify-center">
+              <td className="pl-5 text-sm text-gray-700 whitespace-nowrap">
+                {/* {(nested.child) ? nested.child.title : nested.child.name} */}
+                {data && data.name}
+              </td>
+              <>
+                {data && data.columns.map(items => {
+                  return (
+                      <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
+                        {typeof(items.value)==="object" ? "" : items.value }
+                      </td>
+                  )
+                })}
+              </>
+            </tr>
+          </tbody>
+          {data && data.subheaders && <Children child = {data.subheaders}></Children>}
+        </>
+      )
+    })
+  }
 
-        if(!child){
-            return;
-        }
-
-        // {child.map((obj)=>{
-        //     return <>
-        //     <tbody onClick={()=>{setOpen(obj.name)}} className="divide-y divide-gray-100 ">
-        //         <tr className="bg-white justify-center">
-        //             <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-        //                 {obj.title || obj.name}
-        //             </td>
-        //             {obj.columns && obj.columns.map((item)=>
-        //                 <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-        //                     {item.value? item.value : ""}
-        //                 </td>
-        //             )}
-        //         </tr>
-        //     </tbody>
-
-        //     {obj.subheaders && subheader(obj.subheaders)}
-        //     </>
-        // })}
-
-        for(let i=0; i< child.length; i++ ){
-            return (
-                <>
-                    <tbody onClick={()=>{setOpen(child[i].name)}} className="divide-y divide-gray-100 ">
-                        <tr className="bg-white justify-center">
-                            <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                                {child[i].title || child[i].name}
-                            </td>
-                            {child[i].columns && child[i].columns.map((item)=>
-                                <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                                    {typeof(item.value)==="object"? " " : item.value}
-                                </td>
-                            )}
-                        </tr>
-                    </tbody>
-                    {child[i].subheaders && child[i].subheaders.length>0 && subheader(child[i].subheaders)}
-                </>
-            )
-        }
-    }
+  const Subheader = ({parent}) => {
+      return (
+        <>
+          <tbody onClick={() => { setOpen(parent.name) }} className="divide-y divide-gray-100 ">
+            <tr className="bg-white justify-center">
+              <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
+                {/* {(parent) ? parent.title : parent.name} */}
+                {parent && (parent.title || parent.name)}
+              </td>
+              {parent && parent.columns && parent.columns.map((item)=>
+                <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
+                    {item.value}
+                </td>
+              )}
+            </tr>
+          </tbody>
+          <div>
+            {parent && parent.subheaders && <Children child = {parent.subheaders}></Children>}
+          </div>
+        </>
+      )
+  }
 
   return (
     <div className="overflow-auto rounded-lg mt-12 shadow block">
-          <table className="w-full">
-            <thead className="bg-gray-50 border-b-2 border-gray-200">
-              <tr>
-                <th className="w-20 p-3 text-sm font-semibold tracking-wide text-left">
-                  {heading}
-                </th>
-                {content[0].columnheaders.map((item)=>
-                    <th key={item} className="w-20 p-3 text-sm font-semibold tracking-wide text-left">
-                        {item}
-                    </th>
-                )}
-              </tr>
-            </thead>
+      <table className="w-full">
+        <thead className="bg-gray-50 border-b-2 border-gray-200">
+          <tr>
+            <th className="w-20 p-3 text-sm font-semibold tracking-wide text-left">
+              {heading}
+            </th>
+            {content[0].columnheaders.map((item) =>
+              <th key={item} className="w-20 p-3 text-sm font-semibold tracking-wide text-left">
+                {item}
+              </th>
+            )}
+          </tr>
+        </thead>
 
-            {content.map((item)=>( item.heading === heading &&
-                subheader(item.children)
-            ))}
+        {console.log(content)}
+        {
+          content && content.map(data => {
+            if(data.heading === heading){
+              return <Subheader parent = {data.children[0]}></Subheader>
+            }
+          })
+        }
 
-            {/* {subheader()} */}
-            
+        {/* {subheader()} */}
 
-            {/* {items.map((item,i) => (
+
+        {/* {items.map((item,i) => (
               <tbody className="divide-y divide-gray-100 ">
                 <tr className="bg-white justify-center">
                   <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
@@ -100,10 +108,11 @@ const Table = ({content, heading}) => {
                 </tr>
               </tbody>
             ))} */}
-          </table>
-          {/* {buisnessDetails.jobsAdded.length===0?<div className="text-center my-4">You have not yet posted any Job</div>:<></>} */}
-        </div>
+      </table>
+      {/* {buisnessDetails.jobsAdded.length===0?<div className="text-center my-4">You have not yet posted any Job</div>:<></>} */}
+    </div>
   )
 }
 
 export default Table
+
