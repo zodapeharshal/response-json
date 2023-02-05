@@ -1,33 +1,34 @@
-import React, { Children } from 'react'
+import React from 'react'
 import { useState } from 'react'
 
 const Table = ({ content, heading }) => {
 
-  // console.log(content)
-  const [open, setOpen] = useState("")
+  const [open, setOpen] = useState(null)
+  const [child, setChild] = useState(null)
+  const [nest, setNest] = useState(4)
 
   const Children = ({child}) => {
     return child.map(data => {
       return (
         <>
-          <tbody onClick={() => { setOpen(child.name) }} className="divide-y divide-gray-100 ">
+          <tbody onClick={() => { setChild(child===child.name? -1 : child.name); setNest(nest+4) }} className="divide-y bg-gray-500 divide-gray-100 ">
             <tr className="bg-white justify-center">
-              <td className="pl-5 text-sm text-gray-700 whitespace-nowrap">
+              <td className={`pl-5 text-sm bg-gray-300 text-gray-700 whitespace-nowrap`}>
                 {/* {(nested.child) ? nested.child.title : nested.child.name} */}
                 {data && data.name}
               </td>
               <>
                 {data && data.columns.map(items => {
                   return (
-                      <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                        {typeof(items.value)==="object" ? "" : items.value }
-                      </td>
+                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
+                      {typeof(items.value)==="object" ? "" : items.value }
+                    </td>
                   )
                 })}
               </>
             </tr>
           </tbody>
-          {data && data.subheaders && <Children child = {data.subheaders}></Children>}
+          {data && data.subheaders && child===child.name && <Children child = {data.subheaders}></Children>}
         </>
       )
     })
@@ -36,11 +37,11 @@ const Table = ({ content, heading }) => {
   const Subheader = ({parent}) => {
       return (
         <>
-          <tbody onClick={() => { setOpen(parent.name) }} className="divide-y divide-gray-100 ">
+          <tbody onClick={() => { setOpen(open===parent.title? -1 : parent.title) }} className="divide-y bg-gray-900 divide-gray-100 ">
             <tr className="bg-white justify-center">
-              <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
+              <td className="p-3 text-sm bg-gray-100 text-gray-700 whitespace-nowrap">
                 {/* {(parent) ? parent.title : parent.name} */}
-                {parent && (parent.title || parent.name)}
+                {parent &&  (parent.title || parent.name)}
               </td>
               {parent && parent.columns && parent.columns.map((item)=>
                 <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
@@ -49,9 +50,7 @@ const Table = ({ content, heading }) => {
               )}
             </tr>
           </tbody>
-          <div>
-            {parent && parent.subheaders && <Children child = {parent.subheaders}></Children>}
-          </div>
+            {parent && parent.subheaders && open===parent.title && <Children child = {parent.subheaders}></Children>}
         </>
       )
   }
@@ -76,43 +75,14 @@ const Table = ({ content, heading }) => {
         {
           content && content.map(data => {
             if(data.heading === heading){
-              return <Subheader parent = {data.children[0]}></Subheader>
+              return data.children.map((parent)=><Subheader parent = {parent} />) 
             }
           })
         }
 
-        {/* {subheader()} */}
-
-
-        {/* {items.map((item,i) => (
-              <tbody className="divide-y divide-gray-100 ">
-                <tr className="bg-white justify-center">
-                  <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                    {i + 1}
-                  </td>
-                  <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                    <img src={item.image} alt={item.name} className="h-[6rem] object-cover rounded-full" />
-                  </td>
-                  <td className="p-3 text-md font-semibold text-gray-700 whitespace-nowrap">
-                    {item.name}
-                  </td>
-                  <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                    {item.type}
-                  </td>
-                  <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                    {item.sold}
-                  </td>
-                  <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                    {item.price}
-                  </td>
-                </tr>
-              </tbody>
-            ))} */}
       </table>
-      {/* {buisnessDetails.jobsAdded.length===0?<div className="text-center my-4">You have not yet posted any Job</div>:<></>} */}
     </div>
   )
 }
 
 export default Table
-
