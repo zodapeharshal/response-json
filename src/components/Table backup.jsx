@@ -13,25 +13,6 @@ const Table = ({content, heading}) => {
             return;
         }
 
-        // {child.map((obj)=>{
-        //     return <>
-        //     <tbody onClick={()=>{setOpen(obj.name)}} className="divide-y divide-gray-100 ">
-        //         <tr className="bg-white justify-center">
-        //             <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-        //                 {obj.title || obj.name}
-        //             </td>
-        //             {obj.columns && obj.columns.map((item)=>
-        //                 <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-        //                     {item.value? item.value : ""}
-        //                 </td>
-        //             )}
-        //         </tr>
-        //     </tbody>
-
-        //     {obj.subheaders && subheader(obj.subheaders)}
-        //     </>
-        // })}
-
         for(let i=0; i< child.length; i++ ){
             return (
                 <>
