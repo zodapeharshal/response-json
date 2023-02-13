@@ -32,9 +32,10 @@ const Subheader = ({ subhead, columnHeaders }) => {
                 {item.value}
               </td>;
             })}
-          {columnHeaders.map((col) => {
+          {columnHeaders.map((col,idx) => {
                 return (
                   <td
+                  key={subhead.rowId + idx}
                     className={`p-1 text-base bg-cyan-50 text--700 text-center h-full   `}
                   >{}</td>
                 );
@@ -45,12 +46,13 @@ const Subheader = ({ subhead, columnHeaders }) => {
       {subhead &&
         subhead.subheaders &&
         open  && 
-        subhead.subheaders.map((data) => {
+        subhead.subheaders.map((data,idx) => {
           return (
             <Children
               rowdata={data}
               columnHeaders={columnHeaders}
               indent={15}
+              key={subhead.rowId + "children" + idx}
             ></Children>
           );
         })}

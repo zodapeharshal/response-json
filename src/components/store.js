@@ -10,7 +10,9 @@ function configureStore(
         "y0": "",
         "x1": "",
         "y1": ""
-    }
+    },
+    toShow : false,
+    toHadoop: false
   }
 ) {
   return createStore(updateReducer, state);
