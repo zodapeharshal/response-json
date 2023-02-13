@@ -12,7 +12,7 @@ function configureStore(
         "y1": ""
     },
     toShow : false,
-    toHadoop: false
+    toActivatePeriod: "",
   }
 ) {
   return createStore(updateReducer, state);
