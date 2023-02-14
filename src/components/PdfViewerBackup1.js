@@ -9,7 +9,6 @@ import { updateToShow } from "./actions/updateToShow";
 import { updatePeriod } from "./actions/updatePeriod";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
-import { updateIsLoading } from "./actions/updateIsLoading";
 pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJSWorker;
 
 const PdfViewer = () => {
@@ -20,7 +19,6 @@ const PdfViewer = () => {
   const [pageNum, setPageNum] = useState(1);
   const requestedFileData = useSelector((state) => state.fileData);
   const periodYear = useSelector((state) => state.toActivatePeriod);
-  const isLoading = useSelector((state) => state.isLoading);
   // console.log(requestedFileData);
   const filesMetaData = data.data.metaData.documents;
 
@@ -113,9 +111,6 @@ const PdfViewer = () => {
               (x3 - x1) * scale
             );
         }
-      })
-      .then(() => {
-        dispatch(updateIsLoading(false));
       });
     setIsActive(requestedFileData.documentId);
     setPageNum(requestedFileData.pageNumber);
@@ -253,39 +248,7 @@ const PdfViewer = () => {
           );
         })}
       </ul>
-      {isLoading ? (
-        <button
-          type="button"
-          class="inline-flex items-center px-4 py-2 font-semibold leading-6 text-sm shadow rounded-md text-white bg-indigo-500 hover:bg-indigo-400 transition ease-in-out duration-150 cursor-not-allowed"
-          disabled=""
-        >
-          <svg
-            class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            {/* <circle
-              class="opacity-25"
-              cx="12"
-              cy="12"
-              r="10"
-              stroke="currentColor"
-              stroke-width="4"
-            ></circle> */}
-            <path
-              class="opacity-75"
-              fill="currentColor"
-              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-            ></path>
-          </svg>
-          Processing...
-        </button>
-      ) : (
-        ""
-      )}
       <div id="pdf-viewer" className="h-[64rem] overflow-y-scroll"></div>
-
       {/* <canvas ref={canvasRef} width="300" height="300" /> */}
     </div>
   );
@@ -297,6 +260,5 @@ const mapDispatchToProps = (dispatch) => ({
   updateFileData: () => dispatch(updateFileData),
   updateToShow: () => dispatch({ type: "updateToShow" }),
   updatePeriod: () => dispatch({ type: "updatePeriod" }),
-  updateIsLoading: () => dispatch({ type: updateIsLoading }),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(PdfViewer);

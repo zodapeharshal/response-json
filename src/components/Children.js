@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { connect } from "react-redux";
 import { updateFileData } from "./actions/updateFileData";
 import { updateToShow } from "./actions/updateToShow";
+import { updateIsLoading } from "./actions/updateIsLoading" ;
 const Children = ({ rowdata, columnHeaders, indent }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
@@ -61,6 +62,7 @@ const Children = ({ rowdata, columnHeaders, indent }) => {
                     key={rowdata.rowId + attr}
                     onClick={() => {
                       if (attr !== "Units" && attr !=="Target") {
+                        dispatch(updateIsLoading(true)) ;
                         dispatch(
                           updateFileData(hash[rowdata.rowId][attr].pageDetails)
                         );
@@ -129,5 +131,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   updateFileData: () => dispatch({ type: "updateData" }),
   updateToShow: () => dispatch({ type: "updateToShow" }),
+  updateIsLoading: () => dispatch({type: "updateIsLoading"})
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Children);

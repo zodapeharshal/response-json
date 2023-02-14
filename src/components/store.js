@@ -13,6 +13,7 @@ function configureStore(
     },
     toShow : false,
     toActivatePeriod: "",
+    isLoading: false
   }
 ) {
   return createStore(updateReducer, state);

@@ -43,7 +43,7 @@ const Table = ({ tablecontent, heading }) => {
       <div className="w-[.5%]"></div>
 
       {toShow ? (
-        <div className="w-[30%] overflow-scroll border border-gray-400 p-5">
+        <div className="w-[30%] border border-gray-400 p-5">
           <PdfViewer> </PdfViewer>
         </div>
       ) : (

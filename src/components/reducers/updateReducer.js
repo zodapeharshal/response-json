@@ -12,6 +12,10 @@ export default (state, action) => {
             ...state,
             toActivatePeriod: action.payload
         }; 
+        case "updateIsLoading" : return {
+            ...state,
+            isLoading: action.payload
+        };
         default:
             return state ; 
     }
