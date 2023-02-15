@@ -61,7 +61,7 @@ const Children = ({ rowdata, columnHeaders, indent }) => {
                   <td
                     key={rowdata.rowId + attr}
                     onClick={() => {
-                      if (attr !== "Units" && attr !=="Target") {
+                      if (attr !== "Units" && attr !=="Target" && hash[rowdata.rowId][attr].pageDetails !== null) {
                         dispatch(updateIsLoading(true)) ;
                         dispatch(
                           updateFileData(hash[rowdata.rowId][attr].pageDetails)
